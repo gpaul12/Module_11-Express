@@ -1,8 +1,8 @@
-const express = require('express');
-const path = require('path');
+const express = require("express");
+const path = require("path");
 // Helper method for generating unique ids
-const uuid = require('./helpers/uuid');
-const reviews = require('./db/reviews');
+const uuid = require("./helpers/uuid");
+const reviews = require("./db/reviews");
 
 const PORT = 3001;
 
@@ -11,20 +11,20 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 
-app.get('/', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/index.html'))
+app.get("/", (req, res) =>
+  res.sendFile(path.join(__dirname, "/public/index.html"))
 );
 
 // GET request for reviews
-app.get('/api/reviews', (req, res) => {
+app.get("/api/reviews", (req, res) => {
   console.info(`GET /api/reviews`);
   res.status(200).json(reviews);
 });
 
 // GET request for a single review
-app.get('/api/reviews/:review_id', (req, res) => {
+app.get("/api/reviews/:review_id", (req, res) => {
   if (req.params.review_id) {
     console.info(`${req.method} request received to get a single a review`);
     const reviewId = req.params.review_id;
@@ -35,21 +35,25 @@ app.get('/api/reviews/:review_id', (req, res) => {
         return;
       }
     }
-    res.status(404).send('Review not found');
+    res.status(404).send("Review not found");
   } else {
-    res.status(400).send('Review ID not provided');
+    res.status(400).send("Review ID not provided");
   }
 });
 
 // POST request to add a review
-app.post('/api/reviews', (req, res) => {
+app.post("/api/reviews", (req, res) => {
   // Log that a POST request was received
   console.info(`${req.method} request received to add a review`);
 
   // TODO: Add a comment describing the functionality of following line of code:
+  // Destructuring assignment for the items in req.body
+
   const { product, review, username } = req.body;
 
   // TODO: Add a comment describing why we would check to see if the following properties exist before entering the code block
+  // If all the required properties are present
+
   if (product && review && username) {
     // Variable for the object we will save
     const newReview = {
@@ -61,22 +65,24 @@ app.post('/api/reviews', (req, res) => {
     };
 
     const response = {
-      status: 'success',
+      status: "success",
       body: newReview,
     };
 
     console.log(response);
 
     // TODO: Add a comment explaining the functionality of res.json()
+    // sends JSON response compose of specified data
     res.status(201).json(response);
   } else {
     // TODO: Add a comment describing the purpose of the else statement in this POST request.
-    res.status(500).json('Error in posting review');
+    // checking if there is an error
+    res.status(500).json("Error in posting review");
   }
 });
 
 // GET request for a specific review's upvotes
-app.get('/api/upvotes/:review_id', (req, res) => {
+app.get("/api/upvotes/:review_id", (req, res) => {
   console.info(`${req.method} request received to get upvotes for a review`);
   for (let i = 0; i < reviews.length; i++) {
     const currentReview = reviews[i];
@@ -88,11 +94,11 @@ app.get('/api/upvotes/:review_id', (req, res) => {
       return;
     }
   }
-  res.json('Review ID not found');
+  res.json("Review ID not found");
 });
 
 // POST request to upvote a review
-app.post('/api/upvotes/:review_id', (req, res) => {
+app.post("/api/upvotes/:review_id", (req, res) => {
   if (req.body && req.params.review_id) {
     console.info(`${req.method} request received to upvote a review`);
     const reviewId = req.params.review_id;
@@ -104,7 +110,7 @@ app.post('/api/upvotes/:review_id', (req, res) => {
         return;
       }
     }
-    res.json('Review ID not found');
+    res.json("Review ID not found");
   }
 });
 

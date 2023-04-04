@@ -1,31 +1,36 @@
-const userNameInput = document.getElementById('username');
-const productInput = document.getElementById('product');
-const reviewInput = document.getElementById('review');
-const reviewForm = document.getElementById('review-form');
+const userNameInput = document.getElementById("username");
+const productInput = document.getElementById("product");
+const reviewInput = document.getElementById("review");
+const reviewForm = document.getElementById("review-form");
 
 // TODO: Add a comment explaining the functionality of this helper function
+// Helper function that accepts a `review` object, sends a POST request and returns the result
 const postReview = (review) =>
   // TODO: Add a comment explaining what sort of data we need to provide when invoking the fetch function for a POST request
-  fetch('/api/reviews', {
-    method: 'POST',
+  // Fetch accepts a URL and an options object where you can declare the HTTP method, the request body, and any headers.
+
+  fetch("/api/reviews", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     // TODO: Add a comment describing why one would need to convert the JSON object to a string in this instance
+
     body: JSON.stringify(review),
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log('Successful POST request:', data);
+      console.log("Successful POST request:", data);
       return data;
     })
     // TODO: Add a comment describing the functionality of the catch statement
+
     .catch((error) => {
-      console.error('Error in POST request:', error);
+      console.error("Error in POST request:", error);
     });
 
 // Listen for when the form is submitted
-reviewForm.addEventListener('submit', (e) => {
+reviewForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
   // Create a new review object from the input values
