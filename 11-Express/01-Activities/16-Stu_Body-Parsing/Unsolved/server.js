@@ -1,16 +1,18 @@
-const express = require('express');
+const express = require("express");
 
 const PORT = 3001;
-const reviews = require('./db/reviews');
+const reviews = require("./db/reviews");
 
 const app = express();
 
 // TODO: Implement middleware for the parsing of JSON data
+app.use(express.json());
 
 // TODO: Implement middleware for parsing of URL encoded data
+app.use(express.urlencoded({ extended: true }));
 
 // GET request for ALL reviews
-app.get('/api/reviews', (req, res) => {
+app.get("/api/reviews", (req, res) => {
   // Log our request to the terminal
   console.info(`${req.method} request received to get reviews`);
 
@@ -19,7 +21,7 @@ app.get('/api/reviews', (req, res) => {
 });
 
 // GET request for a single review
-app.get('/api/reviews/:review_id', (req, res) => {
+app.get("/api/reviews/:review_id", (req, res) => {
   if (req.params.review_id) {
     console.info(`${req.method} request received to get a single a review`);
     const reviewId = req.params.review_id;
@@ -30,14 +32,14 @@ app.get('/api/reviews/:review_id', (req, res) => {
         return;
       }
     }
-    res.status(404).send('Review not found');
+    res.status(404).send("Review not found");
   } else {
-    res.status(400).send('Review ID not provided');
+    res.status(400).send("Review ID not provided");
   }
 });
 
 // POST request to add a review
-app.post('/api/reviews', (req, res) => {
+app.post("/api/reviews", (req, res) => {
   // Log that a POST request was received
   console.info(`${req.method} request received to add a review`);
 
@@ -47,12 +49,12 @@ app.post('/api/reviews', (req, res) => {
   // Check if there is anything in the response body
   if (req.body && req.body.product) {
     response = {
-      status: 'success',
+      status: "success",
       data: req.body,
     };
     res.status(201).json(response);
   } else {
-    res.status(400).json('Request body must at least contain a product name');
+    res.status(400).json("Request body must at least contain a product name");
   }
 
   // Log the response body to the console
@@ -60,7 +62,7 @@ app.post('/api/reviews', (req, res) => {
 });
 
 // POST request to upvote a review
-app.post('/api/upvotes/:review_id', (req, res) => {
+app.post("/api/upvotes/:review_id", (req, res) => {
   if (req.body && req.params.review_id) {
     console.info(`${req.method} request received to upvote a review`);
     const reviewId = req.params.review_id;
@@ -72,7 +74,7 @@ app.post('/api/upvotes/:review_id', (req, res) => {
         return;
       }
     }
-    res.status(404).json('Review ID not found');
+    res.status(404).json("Review ID not found");
   }
 });
 
