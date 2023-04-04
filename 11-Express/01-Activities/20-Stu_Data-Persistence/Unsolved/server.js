@@ -1,8 +1,8 @@
-const express = require('express');
-const path = require('path');
-const fs = require('fs');
+const express = require("express");
+const path = require("path");
+const fs = require("fs");
 // Helper method for generating unique ids
-const uuid = require('./helpers/uuid');
+const uuid = require("./helpers/uuid");
 
 const PORT = 3001;
 
@@ -11,14 +11,14 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 
-app.get('/', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/index.html'))
+app.get("/", (req, res) =>
+  res.sendFile(path.join(__dirname, "/public/index.html"))
 );
 
 // GET request for reviews
-app.get('/api/reviews', (req, res) => {
+app.get("/api/reviews", (req, res) => {
   // Send a message to the client
   res.json(`${req.method} request received to get reviews`);
 
@@ -27,7 +27,7 @@ app.get('/api/reviews', (req, res) => {
 });
 
 // POST request to add a review
-app.post('/api/reviews', (req, res) => {
+app.post("/api/reviews", (req, res) => {
   // Log that a POST request was received
   console.info(`${req.method} request received to add a review`);
 
@@ -48,7 +48,7 @@ app.post('/api/reviews', (req, res) => {
     const reviewString = JSON.stringify(newReview);
 
     // Write the string to a file
-    fs.writeFile(`./db/reviews.json`, reviewString, (err) =>
+    fs.appendFile(`./db/reviews.json`, reviewString, (err) =>
       err
         ? console.error(err)
         : console.log(
@@ -57,14 +57,14 @@ app.post('/api/reviews', (req, res) => {
     );
 
     const response = {
-      status: 'success',
+      status: "success",
       body: newReview,
     };
 
     console.log(response);
     res.status(201).json(response);
   } else {
-    res.status(500).json('Error in posting review');
+    res.status(500).json("Error in posting review");
   }
 });
 
