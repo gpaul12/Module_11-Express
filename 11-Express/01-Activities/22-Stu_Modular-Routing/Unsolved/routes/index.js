@@ -2,17 +2,15 @@
 const express = require("express");
 
 // TODO: Import modules for tips/feedback
-const tips = require("express").Router();
-const fb = require("express").Router();
+const tipsRouter = require("./tips");
+const feedbackRouter = require("./feedback");
 
 // TODO: Create app vaible to store the value of express()
 const app = express();
 
 // TODO: Use our routes
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.use(express.static("public"));
+app.use("/tips", tipsRouter);
+app.use("/feedback", feedbackRouter);
 
 // TODO: Export app
 

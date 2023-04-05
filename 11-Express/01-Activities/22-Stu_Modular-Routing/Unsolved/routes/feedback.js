@@ -1,6 +1,6 @@
 const fb = require("express").Router();
 // TODO: Import helper functions and dependencies
-const { readFromFile, readAndAppend } = require("./helpers/fsUtils");
+const { readFromFile, readAndAppend } = require("../helpers/fsUtils");
 const uuid = require("../helpers/uuid");
 
 // TODO: GET Route for retrieving all the feedback
