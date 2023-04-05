@@ -7,12 +7,7 @@ const PORT = 3001;
 
 const app = express();
 
-const middleware = (req, res, next) => {
-  const yellow = "\x1b[33m%s\x1b[0m";
-  console.log(yellow, `${req.method} request to ${req.path}`);
-  next();
-};
-app.use(middleware);
+app.use(clog);
 
 // Middleware for parsing JSON and urlencoded form data
 app.use(express.json());
